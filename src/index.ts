@@ -1,4 +1,7 @@
 import app from "./server";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const API_PORT = 8012;
 

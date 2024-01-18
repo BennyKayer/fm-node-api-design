@@ -24,6 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 //     (req as any).additionalData = "woohoho";
 //     next();
 // });
+// seems like middlewares can be passed into gets directly
+// app.get("/todo/:id", myMiddleware, my2ndMiddleware, handler);
+// // or
+// app.get("/todo/:id", [myMiddleware, my2ndMiddleware], handler);
 
 app.use("/api", router);
 
