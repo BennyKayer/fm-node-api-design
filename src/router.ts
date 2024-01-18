@@ -8,13 +8,19 @@ import {
     httpPutProduct,
 } from "./handlers/product";
 import { handleInputErrors } from "./modules/middleware";
+import {
+    httpDeleteUpdate,
+    httpGetUpdate,
+    httpGetUpdates,
+    httpPostUpdate,
+    httpPutUpdate,
+} from "./handlers/update";
 
 const router = Router();
 /**
  * Product
  */
 router.get("/product", httpGetProducts);
-
 router.get("/product/:id", httpGetProduct);
 
 router.post(
@@ -23,38 +29,39 @@ router.post(
     handleInputErrors,
     httpPostProduct
 );
-
-router.put("/product/:id", body("name").isString(), httpPutProduct);
-
+router.put(
+    "/product/:id",
+    body("name").isString(),
+    handleInputErrors,
+    httpPutProduct
+);
 router.delete("/product/:id", httpDeleteProduct);
 
 /**
  * Update
  */
 
-router.get("/update", (req, res) => {});
-
-router.get("/update/:id", (req, res) => {});
+router.get("/update", httpGetUpdates);
+router.get("/update/:id", httpGetUpdate);
 
 router.post(
     "/update",
-    body("title").isString(),
-    body("body").isString(),
+    body("title").exists().isString(),
+    body("body").exists().isString(),
+    body("productId").exists().isString(),
     body("version").optional(),
-    body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]),
-    (req, res) => {}
+    body("status").optional().isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]),
+    httpPostUpdate
 );
-
 router.put(
     "/update/:id",
     body("title").optional(),
     body("body").optional(),
     body("version").optional(),
     body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]),
-    (req, res) => {}
+    httpPutUpdate
 );
-
-router.delete("/update/:id", (req, res) => {});
+router.delete("/update/:id", httpDeleteUpdate);
 
 /**
  * UpdatePoint
