@@ -1,17 +1,19 @@
 import { Router } from "express";
 import { body, oneOf, validationResult } from "express-validator";
-import { httpPutProduct } from "./handlers/product";
+import {
+    httpGetProduct,
+    httpGetProducts,
+    httpPutProduct,
+} from "./handlers/product";
 import { handleInputErrors } from "./modules/middleware";
 
 const router = Router();
 /**
  * Product
  */
-router.get("/product", (req, res) => {
-    res.json({ message: (req as any).additionalData });
-});
+router.get("/product", httpGetProducts);
 
-router.get("/product/:id", (req, res) => {});
+router.get("/product/:id", httpGetProduct);
 
 router.post(
     "/product",
