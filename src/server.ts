@@ -2,10 +2,11 @@ import express from "express";
 import router from "./router";
 import morgan from "morgan";
 import cors from "cors";
+import { protect } from "./modules/auth";
+import { createNewUser, signIn } from "./handlers/user";
 
 const app = express();
 
-//
 // const customLogger = (msg) => (req, res, next) => {
 //     console.log(req);
 //     console.log(res);
@@ -29,10 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 // // or
 // app.get("/todo/:id", [myMiddleware, my2ndMiddleware], handler);
 
-app.use("/api", router);
-
-app.get("/", (req, res) => {
-    res.status(200).json({ message: "Working correctly" });
-});
+app.use("/api", protect, router);
+app.post("/user", createNewUser);
+app.post("/signin", signIn);
 
 export default app;
