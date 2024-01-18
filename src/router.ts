@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { body, oneOf, validationResult } from "express-validator";
+import { body } from "express-validator";
 import {
+    httpDeleteProduct,
     httpGetProduct,
     httpGetProducts,
+    httpPostProduct,
     httpPutProduct,
 } from "./handlers/product";
 import { handleInputErrors } from "./modules/middleware";
@@ -19,12 +21,12 @@ router.post(
     "/product",
     body("name").isString(),
     handleInputErrors,
-    (req, res) => {}
+    httpPostProduct
 );
 
 router.put("/product/:id", body("name").isString(), httpPutProduct);
 
-router.delete("/product/:id", (req, res) => {});
+router.delete("/product/:id", httpDeleteProduct);
 
 /**
  * Update

@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import { validationResult } from "express-validator";
 import { prisma } from "../db";
 
 export const httpGetProducts: RequestHandler = async (req, res) => {
@@ -41,6 +40,36 @@ export const httpGetProduct: RequestHandler = async (req, res) => {
     }
 };
 
-export const httpPutProduct: RequestHandler = (req, res) => {
-    return res.status(200).json({ status: "ok" });
+export const httpPostProduct: RequestHandler = async (req, res) => {
+    const product = await prisma.product.create({
+        data: {
+            name: req.body.name,
+            userId: (req as any).user.id,
+        },
+    });
+
+    return res.json({ data: product });
+};
+
+export const httpPutProduct: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+
+    const updated = await prisma.product.update({
+        where: { id, userId: (req as any).user.id },
+        data: {
+            name: req.body.name,
+        },
+    });
+
+    return res.json({ data: updated });
+};
+
+export const httpDeleteProduct: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+
+    const deleted = await prisma.product.delete({
+        where: { id, userId: (req as any).user.id },
+    });
+
+    return res.json({ data: deleted });
 };
