@@ -34,4 +34,10 @@ app.use("/api", protect, router);
 app.post("/user", createNewUser);
 app.post("/signin", signIn);
 
+// Weirds it's unaware of types
+// app.use((err, req, res, next) => {
+//     console.log(err);
+//     return res.status(500).json({message: `${err}`})
+// })
+
 export default app;
