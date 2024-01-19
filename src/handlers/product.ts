@@ -48,7 +48,7 @@ export const httpPostProduct: RequestHandler = async (req, res) => {
         },
     });
 
-    return res.json({ data: product });
+    return res.status(200).json({ data: product });
 };
 
 export const httpPutProduct: RequestHandler = async (req, res) => {
